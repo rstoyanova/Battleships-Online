@@ -5,8 +5,6 @@ public interface Game {
 
     String toString(String player);
 
-    void print(String player);
-
     int numberOfPlayersForGame();
 
     int numberOfCurrentPlayers();

@@ -14,6 +14,7 @@ public class Controller {
     private static final String ATTACK = "attack";
     private static final String PLACE_SHIP = "place-ship";
     private static final String PRINT_BOARD = "print-board";
+    private static final String EXIT = "exit";
 
     private static final Executor executor = new Executor();
 
@@ -31,7 +32,8 @@ public class Controller {
             case SAVED_GAMES -> executor.execute(new SavedGames(arg, username));
             case ATTACK -> executor.execute(new Attack(arg, username));
             case PLACE_SHIP -> executor.execute(new PlaceShip(arg, username));
-            case PRINT_BOARD -> executor.execute(new PrintBoard(username));
+            case PRINT_BOARD -> executor.execute(new ViewBoard(username));
+            case EXIT -> executor.execute(new ExitGame(username));
             default -> INVALID_COMMAND;
         };
     }

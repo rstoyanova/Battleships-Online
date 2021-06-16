@@ -12,8 +12,11 @@ import game.battleships.ships.Ship;
 import server.data.actions.Loader;
 import server.data.actions.Saver;
 
-import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,22 +31,14 @@ public class ServerStorage implements Storage {
     private static Map<String, List<String>> usersGames;
     // <GameId, ActiveGame>> // currently active games
     private static Map<String, ActiveBattleshipsGame> activeGames;
-    // <Username, gameId> // users currently playing
+    // <Username, GameId> // users currently playing
     private static Map<String, String> playingUsers;
 
     private static final String DEFAULT_FILENAME_FOR_SAVINGS = "data_server.txt";
     private static final String BANNER =
-            "   Possible actions" + System.lineSeparator() +
-                    "***********************************" + System.lineSeparator();
+            "                         Possible actions" + System.lineSeparator()
+                    + "*****************************************************************" + System.lineSeparator();
     private static final String ATTACK_INFO = "  attack [target]" + System.lineSeparator() + System.lineSeparator();
-    private static final String PLACE_INFO =
-            "  place-ship [ship-type] from to" + System.lineSeparator() +
-                    "___________________________________" + System.lineSeparator() +
-                    "  [ship-type] | length | #" + System.lineSeparator() +
-                    "  destroyer   |     2  | 2" + System.lineSeparator() +
-                    "  submarine   |     3  | 3" + System.lineSeparator() +
-                    "  battleship  |     4  | 2" + System.lineSeparator() +
-                    "  destroyer   |     5  | 1" + System.lineSeparator();
 
     private ServerStorage() {
         gameData = new HashMap<>();
@@ -123,7 +118,7 @@ public class ServerStorage implements Storage {
 
         ActiveBattleshipsGame game = null;
         if (!activeGames.containsKey(gameId)) {
-            if (gameData.containsKey(gameId)){
+            if (gameData.containsKey(gameId)) {
                 BattleshipsGame cashedGame = gameData.get(gameId);
                 game = new ActiveBattleshipsGame(cashedGame);
             } else {
@@ -141,11 +136,27 @@ public class ServerStorage implements Storage {
         } else if (game.userPlacedAllShips(loaderUsername)) {
             LEGEND += "  Wait for opponent to place all ships" + System.lineSeparator();
         } else {
-            LEGEND += PLACE_INFO;
+            LEGEND += game.getPlaceInfo(loaderUsername);
         }
 
         playingUsers.put(loaderUsername, gameId);
         return activeGames.get(gameId).toString(loaderUsername) + LEGEND;
+    }
+
+    public static void exit(String username) throws UserNotCurrentlyPlaying{
+        if (!playingUsers.containsKey(username)
+            || !activeGames.containsKey(playingUsers.get(username))) {
+            throw new UserNotCurrentlyPlaying();
+        }
+
+        String gameId = playingUsers.get(username);
+        playingUsers.remove(username);
+
+        // just in case there is one person playing the game is saved in a file
+        if (activeGames.get(gameId).numberOfCurrentPlayers() == 1) {
+            Saver.saveActiveGameToFile(gameId, activeGames.get(gameId));
+            activeGames.remove(gameId);
+        }
     }
 
     public static void deleteGame(String gameId, String delUsername) throws GameIdNotFound, NoSuchGameForUser {
@@ -165,14 +176,8 @@ public class ServerStorage implements Storage {
         gameData.remove(gameId);
         usersGames.get(delUsername).remove(gameId);
         activeGames.remove(gameId);
-        /*
-        String filename = gameId + "_data";
-        try {
-            Files.delete(filename);
-        } catch (NoSuchFileException x) {
-        }
 
-         */
+        deleteFileForGame(gameId);
     }
 
     public static void attack(BattleshipsBoardField target, String attackerUsername)
@@ -186,7 +191,7 @@ public class ServerStorage implements Storage {
         try {
             activeGames.get(gameId).attack(attackerUsername, target);
         } catch (GameOver e) {
-            deleteGameCompleted(gameId, attackerUsername);
+            deleteCompletedGame(gameId, attackerUsername);
             throw new GameOver();
         }
     }
@@ -203,7 +208,7 @@ public class ServerStorage implements Storage {
         return activeGames.get(gameId).placeShip(placerUsername, ship, from, to);
     }
 
-    public static String printBoard(String player) throws UserNotCurrentlyPlaying{
+    public static String viewBoard(String player) throws UserNotCurrentlyPlaying {
         if (!playingUsers.containsKey(player)) {
             throw new UserNotCurrentlyPlaying();
         }
@@ -211,7 +216,7 @@ public class ServerStorage implements Storage {
         return activeGames.get(gameId).toString(player);
     }
 
-    private static void deleteGameCompleted(String gameId, String winner) {
+    private static void deleteCompletedGame(String gameId, String winner) {
         BattleshipsGame toDel = gameData.get(gameId);
 
         String enemyUsername = toDel.getOpponentUsername();
@@ -219,6 +224,18 @@ public class ServerStorage implements Storage {
         gameData.remove(gameId);
         usersGames.get(winner).remove(gameId);
         activeGames.remove(gameId);
+
+        deleteFileForGame(gameId);
+    }
+
+    private static void deleteFileForGame(String gameId) {
+
+        String filename = gameId + "_data";
+        try {
+            Files.delete(Paths.get(filename));
+        } catch (IOException e) {
+            System.out.println("Something went wrong!");
+        }
     }
 
     private void saveActiveGameInFile(String gameId, ActiveBattleshipsGame game) {

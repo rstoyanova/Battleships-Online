@@ -18,12 +18,19 @@ public class RequestHandler {
     }
 
     public String fulfillRequest(SocketChannel sc, String request) {
-        final String LOGIN = "You are logged" + System.lineSeparator();
+        final String POSSIBLE_COMMANDS =
+                "#################################################" + System.lineSeparator()
+                        + "                 Possible commands" + System.lineSeparator()
+                        + "------------------------------------------------"+ System.lineSeparator()
+                        + "       create-game [name]" + System.lineSeparator()
+                        + "       join-game [name]" + System.lineSeparator()
+                        + "       load-game [name]" + System.lineSeparator()
+                        + "       saved-games" + System.lineSeparator();
         if (!handleLogin(sc, request)) {
             String username = users.get(sc);
             return controller.executeCommand(request, username);
         }
-        return LOGIN;
+        return POSSIBLE_COMMANDS;
     }
 
     private boolean handleLogin(SocketChannel sc, String request) {

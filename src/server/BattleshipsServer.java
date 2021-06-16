@@ -25,17 +25,11 @@ public class BattleshipsServer {
     }
 
     public void start() {
-        Thread customThread = new Thread(() -> {
-            try {
-                startServer();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        Thread customThread = new Thread(this::startServer);
         customThread.start();
     }
 
-    private void startServer() throws IOException {
+    private void startServer() {
         try (ServerSocketChannel serverSocketChannel = ServerSocketChannel.open()) {
             serverSocketChannel.bind(new InetSocketAddress(SERVER_HOST, SERVER_PORT));
             serverSocketChannel.configureBlocking(false);
@@ -51,6 +45,7 @@ public class BattleshipsServer {
     }
 
     private void runServer() throws IOException {
+        System.out.println("Server started" + NL);
         ByteBuffer buffer = ByteBuffer.allocate(BUFFER_SIZE);
         while (flag) {
             int readyChannels = selector.select();
@@ -59,7 +54,6 @@ public class BattleshipsServer {
             }
             Set<SelectionKey> selectedKeys = selector.selectedKeys();
             Iterator<SelectionKey> keyIterator = selectedKeys.iterator();
-            System.out.println("Server started" + NL);
 
             while (keyIterator.hasNext()) {
                 SelectionKey key = keyIterator.next();

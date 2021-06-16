@@ -2,7 +2,6 @@ package game.battleships.gameengine;
 
 import game.battleships.board.BattleshipsBoard;
 import exceptions.game.battleships.gameengine.PlayersSlotsAreTaken;
-import game.battleships.ships.Battleship;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -46,11 +45,6 @@ public class BattleshipsGame implements Game, Serializable {
         output += NL +
                 getLegend();
         return output;
-    }
-
-    @Override
-    public void print(String player) {
-        System.out.println(toString(player));
     }
 
     @Override
@@ -109,9 +103,9 @@ public class BattleshipsGame implements Game, Serializable {
     }
 
     private String getLegend() {
-        return "Legend:" + NL +
-                "* - ship field" + NL +
-                "X - hit ship field" + NL +
-                "О - hit empty field" + NL;
+        return "  Legend:" + NL +
+                "  * - ship field" + NL +
+                "  X - hit ship field" + NL +
+                "  О - hit empty field" + NL + NL;
     }
 }

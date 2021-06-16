@@ -35,7 +35,6 @@ public class ChannelWriter implements Runnable {
         } catch (IOException e) {
             throw new RuntimeException(WRITE_CHANNEL_ERR, e);
         }
-
         while (socketChannel.isOpen()) {
             line = scanner.nextLine();
 

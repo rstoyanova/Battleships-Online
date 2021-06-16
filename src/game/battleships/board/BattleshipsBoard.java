@@ -24,8 +24,8 @@ public class BattleshipsBoard implements Grid, Serializable {
     private static final char MISS_FIELD = 'O';
     private static final char EMPTY_FIELD = '_';
     private static final char COLUMN_SEPARATOR = '|';
-    private static final char TAB = '\t';
     private static final char SPACE = ' ';
+    private static final String INDENT = "\t\t\t\t\t";
 
     private static final String YOUR_BOARD_BANNER = "        YOUR BOARD";
     private static final String ENEMY_BOARD_BANNER = "       ENEMY BOARD";
@@ -50,7 +50,7 @@ public class BattleshipsBoard implements Grid, Serializable {
     public String toString(boolean enemy) {
         StringBuilder output = getHeader(enemy);
         for (int i = 0; i < ROW_COL_LEN; i++) {
-            output.append(TAB)
+            output.append(INDENT)
                     .append(rowLabel(i))
                     .append(SPACE);
             for (Character f : board.get(i)) {
@@ -137,14 +137,14 @@ public class BattleshipsBoard implements Grid, Serializable {
     }
 
     private StringBuilder getHeader(boolean enemy) {
-        StringBuilder output = new StringBuilder().append(TAB);
+        StringBuilder output = new StringBuilder().append(INDENT);
 
         if (enemy) {
             output.append(ENEMY_BOARD_BANNER);
         } else {
             output.append(YOUR_BOARD_BANNER);
         }
-        String HEADER = NL + TAB + NUMBERS + NL + TAB + TOP_OF_BOARD + NL;
+        String HEADER = NL + INDENT + NUMBERS + NL + INDENT + TOP_OF_BOARD + NL;
         output.append(HEADER);
         return output;
     }
@@ -174,7 +174,9 @@ public class BattleshipsBoard implements Grid, Serializable {
                 if (isShipField(new BattleshipsBoardField(row, col))) {
                     throw new FieldsAlreadyOccupied();
                 }
+                row++;
             }
+            row = startPoint.getRow();
             while (row <= endPoint.getRow()) {
                 setShipField(new BattleshipsBoardField(row, col));
                 row++;
@@ -184,7 +186,9 @@ public class BattleshipsBoard implements Grid, Serializable {
                 if (isShipField(new BattleshipsBoardField(row, col))) {
                     throw new FieldsAlreadyOccupied();
                 }
+                col++;
             }
+            col = startPoint.getCol();
             while (col <= endPoint.getCol()) {
                 setShipField(new BattleshipsBoardField(row, col));
                 col++;
@@ -194,8 +198,12 @@ public class BattleshipsBoard implements Grid, Serializable {
         }
     }
 
+    public int leftToPlaceFromType(Ship ship) {
+        return ships.get(ship.toString());
+    }
+
     private boolean noAvailableShipsOfType(Ship ship) {
-        return ships.get(ship.toString()) <= 0;
+        return leftToPlaceFromType(ship) <= 0;
     }
 
     private boolean isShipField(BattleshipsBoardField field) {

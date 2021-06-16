@@ -21,6 +21,9 @@ public class Saver {
     }
 
     public static void saveActiveGameToFile(String gameId, ActiveBattleshipsGame data) {
+        if(data == null) {
+            throw new IllegalArgumentException("typo");
+        }
         String filename = gameId + "_data";
         Path file = Path.of(filename);
         try (var oos = new ObjectOutputStream(Files.newOutputStream(file))) {

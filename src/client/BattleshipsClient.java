@@ -10,20 +10,16 @@ public class BattleshipsClient {
     private static final int SERVER_PORT = 6666;
     private static final String SERVER_HOST =
             "localhost";
-    private static final String SERVER_CONNECTION_ERROR =
-            "Could not connect to the server";
     private static final String CONNECTED_MESSAGE =
             "Connected to the server";
     private static final String FLAG_USERNAME = "--username";
 
     public static void main(String[] args) {
-        /*if (args.length != 2 || !args[0].equals(FLAG_USERNAME)) {
+        if (args.length != 2 || !args[0].equals(FLAG_USERNAME)) {
             throw new IllegalArgumentException();
         }
-
-        // not ready :(
-        */
-        final String USERNAME = "reni";
+        String USERNAME = args[1];
+        //String USERNAME = "reni";
         new BattleshipsClient().run(USERNAME);
     }
 

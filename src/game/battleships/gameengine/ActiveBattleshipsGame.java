@@ -4,7 +4,7 @@ import exceptions.game.battleships.board.*;
 import game.battleships.board.BattleshipsBoardField;
 import exceptions.game.battleships.gameengine.NotPlayersTurn;
 import exceptions.game.battleships.gameengine.PlayerNotInGame;
-import game.battleships.ships.Ship;
+import game.battleships.ships.*;
 
 import java.io.Serializable;
 
@@ -14,19 +14,9 @@ public class ActiveBattleshipsGame extends BattleshipsGame implements Serializab
     private BattleshipsBoardField lastTurn;
 
     private static final String BANNER =
-            "   Possible actions" + System.lineSeparator() +
-            "***********************************" + System.lineSeparator();
-
-    private static final String ATTACK_INFO = "  attack target" + System.lineSeparator() + System.lineSeparator();
-    private static final String PLACE_INFO =
-            "  place-ship [ship-type] from to" + System.lineSeparator() +
-            "___________________________________" + System.lineSeparator() +
-            "  [ship-type] | length | #" + System.lineSeparator() +
-            "  destroyer   |     2  | 2" + System.lineSeparator() +
-            "  submarine   |     3  | 3" + System.lineSeparator() +
-            "  battleship  |     4  | 2" + System.lineSeparator() +
-            "  carrier     |     5  | 1" + System.lineSeparator();
-
+            "                         Possible actions" + System.lineSeparator()
+                    + "*****************************************************************" + System.lineSeparator();
+    private static final String ATTACK_INFO = "   attack target" + System.lineSeparator() + System.lineSeparator();
 
     public ActiveBattleshipsGame(String creator) {
         super(creator);
@@ -58,7 +48,7 @@ public class ActiveBattleshipsGame extends BattleshipsGame implements Serializab
         if (boards.get(player).allShipsPlaced()) {
             BOARD_DATA += ATTACK_INFO;
         } else {
-            BOARD_DATA += PLACE_INFO;
+            BOARD_DATA += getPlaceInfo(player);
         }
 
         return BOARD_DATA;
@@ -74,13 +64,13 @@ public class ActiveBattleshipsGame extends BattleshipsGame implements Serializab
         if (playerIsNotInTheGame(player)) {
             throw new PlayerNotInGame(player);
         }
-        if (!isNewGame() && userMadeLastTurn.equals(player)) {
+        if (isNotNewGame() && userMadeLastTurn.equals(player)) {
             throw new NotPlayersTurn(player);
         }
 
         boolean notNewGame = false;
         String reply = null;
-        if (!isNewGame()) {
+        if (isNotNewGame()) {
             notNewGame = true;
             reply = toStringLastTurn(player, target);
         }
@@ -91,8 +81,30 @@ public class ActiveBattleshipsGame extends BattleshipsGame implements Serializab
         return notNewGame ? reply : null;
     }
 
-    private boolean isNewGame() {
-        return lastTurn == null;
+    public String getPlaceInfo(String player) {
+
+        StringBuilder placeInfo = new StringBuilder("      place-ship [ship-type] from to {[ship-type] from to .... }")
+                .append(System.lineSeparator())
+                .append("_________________________________________________________________")
+                .append(System.lineSeparator())
+                .append("          [ship-type] | length | #")
+                .append(System.lineSeparator())
+                .append("          destroyer   |     2  | ")
+                .append(boards.get(player).leftToPlaceFromType(new Destroyer()))
+                .append(System.lineSeparator())
+                .append("          submarine   |     3  | ")
+                .append(boards.get(player).leftToPlaceFromType(new Submarine()))
+                .append(System.lineSeparator())
+                .append("          battleship  |     4  | ")
+                .append(boards.get(player).leftToPlaceFromType(new Battleship()))
+                .append(System.lineSeparator())
+                .append("          carrier     |     5  | ")
+                .append(boards.get(player).leftToPlaceFromType(new Carrier()));
+        return placeInfo.toString();
+    }
+
+    private boolean isNotNewGame() {
+        return lastTurn != null;
     }
 
     private String toStringLastTurn(String player, BattleshipsBoardField target) {
