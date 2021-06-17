@@ -1,64 +1,62 @@
 # Battleships Online :anchor:
 
-## Правила на играта
+## Rules
 
--	Играта се играе от двама играчи.
--	Всеки играч разполага с игрално поле, което се състои от 10x10 клетки. Редовете са обозначени с буквите от A до J, а колоните са номерирани с числата от 1 до 10.
--	Всеки играч има на полето си:
-    -	1 кораб, състоящ се от 5 клетки;
-    -	2 кораба, състоящи се от 4 клетки;
-    -	3 кораба, състоящи се от 3 клетки;
-    -	4 кораба, състоящи се от 2 клетки;
--	В началото на играта, всеки играч разполага корабите си на полето, като те могат да са само в права линия (хоризонтално или вертикално)
--	Целта на всеки играч е да уцели корабите на противника си, като играчите се редуват и всеки има право на един изтрел на ход.
-    -	Играчът на ход подава координатите на клетката, по която стреля, и като отговор получава индикация, дали е уцелил или не, и ако е уцелил, дали корабът е потопен.
-    -	За да е потопен даден кораб, трябва да са уцелени всичките му клетки.
--	Играта приключва, когато някой от играчите остане без кораби.
+-	The game is played by two players.
+-	Each player has a board 10x10. The rows are marked with the letters A to J, and the columns are numbered 1 to 10.
+-	Each player has also ships with a certain length and count:
+    -	  [ship-type] | length | #
+          destroyer   |     2  | 1
+          submarine   |     3  | 2
+          battleship  |     4  | 2
+          carrier     |     5  | 1 
+-	At the beginning of the game, each player places his ships on the field, and they can only be in a straight line (horizontally or vertically)
+-	After the preparations starts the game.
+-	The goal of each player is to hit his opponent's ships, as the players take turns and each is entitled to one shot per turn.
+    -	The player on the move gives the coordinates of the cell he is shooting at, and in response receives an indication of whether he has hit or not, and if he has hit, whether the ship has been sunk.
+    -	In order for a ship to sunk, all its cells must be hit.
+-	The game is over when one of the players runs out of ships.
 
 ## Game Server
 
-Да се създаде Game Server със следните функционалности:
+The Server has the following functionalities:
 
--	Създаване на игра
--	Извеждане на списък с всички игри, активни в момента, с информация за броя на играчите в нея.
--	Присъединяване към вече създадена игра (всяка игра трябва да има уникален идентификатор), ако има свободно място.
--	Запазване на състоянието на играта, в която сме в момента.
--	Извеждане на всички запазени игри, в които сме участвали.
--	Възстановяване на запазена игра и присъединяване към нея.
--	Изтриване на запазена игра.
+-	Create a game.
+-	List all currently active games with information about the number of players in it.
+-	Join an already created game.
+-	Save the status of the game currently being played.
+-	Restore a saved game.
+-	Delete a saved game.
 
 ## Game Client
 
-Да се създаде клиент за сървъра, който има конзолен интерфейс.
+The client server has the following console interface
 
-Примерен интерфейс
-
--	Създаване на игра
+-	Loging
 
 ```bash
-$ java run-client.java --username gosho
+$ java BattleshipsClient.java --username gosho
 
-# Извеждане на възможните команди
-Available commands:
-	create-game <game-name>
-	join-game [<game-name>] // ако липсва името, присъединяване към случайна игра.
-	saved-games
-	load-game <game-name>
-	delete-game
-	...
+#################################################
+                 Possible commands
+------------------------------------------------
+       create-game [name]
+       join-game [name]
+       load-game [name]
+       saved-games
 
-menu> create-game my-game
-Created game "my-game", players 1/2
+```
+-	Creating a game
+```bash
+menu> create-game my_game
+Created game my_game, players 1/2
 ```
 
--	Присъединяване към игра
+-	Joining a game
 
 ```bash
-$ java run-client.java --username tosho
 
-# извеждане на възможните команди
-
-menu> list-games
+menu> saved-games
 | NAME     | CREATOR | STATUS      | PLAYERS |
 |----------+---------+-------------+---------|
 | my-game  | pesho   | pending     | 1/2     |
