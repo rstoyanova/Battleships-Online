@@ -1,4 +1,4 @@
-# Battleships Online :anchor:
+# Battleships :anchor:
 
 ## Game overview
 
