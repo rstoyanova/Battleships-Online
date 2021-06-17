@@ -113,14 +113,14 @@ The game is implemented with Client-server architecture.
     The client has only system for receiving and sending messages.  
 - Server  
     There are some main parts    
-    - `Command center`  
+    - Command center  
     Here is everything in relation to the commands send from the users. Implementation with Command design pattern.  
-    - `Game Battleships`  
+    - Game Battleships  
     The whole implementation of the game with it's main components:  
         `Board` contains a matrix of fields representing the game's board.  
         `Game engine` implements the logic of the game and every action that may take place on the board.  
         `Ships` implementation of each ship with its specifics for convenience.  
-    - `Server`  
+    - Server  
     Used NIO for establishing and maintaining the communication between the server and clients.  
         `Server data` contains all data collected while the server is running (f.e. logged players, saved games, state of the games,...)  
         `Saving system` ???  
