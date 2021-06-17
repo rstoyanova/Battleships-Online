@@ -2,7 +2,7 @@
 
 ## Game overview
 
-BattleshipsOnline is a turn-based strategy guessing game for two players. 
+BattleshipsOnline is a turn-based strategy game for two players. 
 
 ### Rules
 
