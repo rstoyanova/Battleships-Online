@@ -70,7 +70,8 @@ menu> saved-games
 
 menu> join-game my-game
 Joined game "my-game"
-PLAYERS: 2/2, type "start" to start the game
+PLAYERS: 2/2, type [start] to start the game
+
 ```
 -	Enter a move
 
