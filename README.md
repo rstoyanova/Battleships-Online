@@ -1,6 +1,6 @@
 # Battleships Online :anchor:
 
-## Overview
+## Game overview
 
 BattleshipsOnline is a turn-based strategy guessing game for two players. 
 
@@ -106,3 +106,54 @@ J |_|_|_|_|_|_|_|X|_|_|
 pesho's last turn: D9
 Enter your turn:
 ```
+
+## Code overview
+
+### Hierarchy 
+
+```bash
+src
+╷
+├─ commandcenter
+|  ├─ command
+|  |    ├─ Command
+|  |    ├─ Attack
+|  |    ├─ CreateGame
+|  |    └─ (...)
+|  ├─ parser
+|  |    ├─ CmdParser
+|  |    ├─ FieldParser
+|  |    └─ ShipParser
+|  ├─ Controller
+|  └─ Executor
+├─ exceptions
+|  ├─ game.battleships
+|  |    └─ (...)
+|  └─ server.data
+|       └─ (...)
+├─ game.battleships
+|  ├─ board
+|  |    ├─ BattleshipsBoard
+|  |    ├─ BattleshipsBoardField
+|  |    ├─ Field
+|  |    └─ Grid
+|  ├─ gameengine
+|  |    ├─ ActiveBattleshipsGame
+|  |    ├─ BattleshipsGame
+|  |    └─ Game
+|  └─ ships
+|       └─ (...)
+├─ server
+|  ├─ data
+|  |    ├─ actions
+|  |    |    ├─ Loader
+|  |    |    └─ Saver
+|  |    ├─ ServerStorage
+|  |    └─ Stogare
+|  ├─ BattleshipsServer
+|  └─ RequestHandler
+test
+   └─ (...)
+```
+
+*Written in Java 15 using IntelliJ IDEA.*
