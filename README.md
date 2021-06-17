@@ -109,6 +109,7 @@ Enter your turn:
 
 ## Code overview
 The game is implemented with Client-server architecture.  
+*Written in Java 15 using IntelliJ IDEA.*  
 -  Client  
     The client has only system for receiving and sending messages.  
 - Server  
@@ -123,7 +124,7 @@ The game is implemented with Client-server architecture.
     - Server  
     Used NIO for establishing and maintaining the communication between the server and clients.  
         `Server data` contains all data collected while the server is running (f.e. logged players, saved games, state of the games,...)  
-        `Saving system` ???  
+        `Saving system` system for saving games or the whole server data in binary files. 
 - Tests  
     Unit tests using JUnit 4  
 
@@ -175,4 +176,4 @@ test
    └─ (...)
 ```
 
-*Written in Java 15 using IntelliJ IDEA.*
+
