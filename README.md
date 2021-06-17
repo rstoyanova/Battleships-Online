@@ -4,7 +4,7 @@
 
 BattleshipsOnline is a turn-based strategy guessing game for two players. 
 
-## Rules
+### Rules
 
 -	The game is played by two players.
 -	Each player has a board 10x10. The rows are marked with the letters A to J, and the columns are numbered 1 to 10.
@@ -39,7 +39,7 @@ The client server has the following console interface
 -	Loging
 
 ```bash
-$ java BattleshipsClient.java --username gosho
+$ java BattleshipsClient.java --username pesho
 
 #################################################
                  Possible commands
@@ -64,13 +64,13 @@ menu> saved-games
 | NAME     | CREATOR | STATUS      | PLAYERS |
 |----------+---------+-------------+---------|
 | my-game  | pesho   | pending     | 1/2     |
-| my-game-2| gosho   | in progress | 2/2     |
+| 1v1      | gosho   | in progress | 2/2     |
 
 menu> join-game my-game
 Joined game "my-game"
 PLAYERS: 2/2, type "start" to start the game
 ```
--	Въвеждане на ход
+-	Enter a move
 
 ```bash
 
@@ -103,6 +103,6 @@ H |_|_|X|X|X|_|_|X|_|_|
 I |_|_|_|_|_|_|_|X|_|_|
 J |_|_|_|_|_|_|_|X|_|_|
 
-gosho's last turn: D9
+pesho's last turn: D9
 Enter your turn:
 ```
