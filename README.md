@@ -21,7 +21,7 @@ BattleshipsOnline is a turn-based strategy guessing game for two players.
     -	In order for a ship to sunk, all its cells must be hit.
 -	The game is over when one of the players runs out of ships.
 
-## Game Server
+### Game Server
 
 The Server has the following functionalities:
 
@@ -32,7 +32,7 @@ The Server has the following functionalities:
 -	Restore a saved game.
 -	Delete a saved game.
 
-## Game Client
+### Game Client
 
 The client server has the following console interface
 
