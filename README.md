@@ -1,5 +1,9 @@
 # Battleships Online :anchor:
 
+## Overview
+
+BattleshipsOnline is a turn-based strategy guessing game for two players. 
+
 ## Rules
 
 -	The game is played by two players.
