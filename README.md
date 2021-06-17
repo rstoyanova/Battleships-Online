@@ -8,12 +8,12 @@ BattleshipsOnline is a turn-based strategy guessing game for two players.
 
 -	The game is played by two players.
 -	Each player has a board 10x10. The rows are marked with the letters A to J, and the columns are numbered 1 to 10.
--	Each player has also ships with a certain length and count:
-    	  [ship-type] | length | #
-          destroyer   |     2  | 1
-          submarine   |     3  | 2
-          battleship  |     4  | 2
-          carrier     |     5  | 1 
+-	Each player has also ships with a certain length and count:  
+    	  [ship-type] | length | #  
+          destroyer   |     2  | 1  
+          submarine   |     3  | 2  
+          battleship  |     4  | 2  
+          carrier     |     5  | 1   
 -	At the beginning of the game, each player places his ships on the field, and they can only be in a straight line (horizontally or vertically)
 -	After the preparations starts the game.
 -	The goal of each player is to hit his opponent's ships, as the players take turns and each is entitled to one shot per turn.
