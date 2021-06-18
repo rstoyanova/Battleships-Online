@@ -133,7 +133,7 @@ The game is implemented with Client-server architecture.
     Unit tests using JUnit 4  
 
 
-### Hierarchy 
+### Server hierarchy 
 
 ```bash
 src
